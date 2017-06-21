@@ -5,7 +5,7 @@ package pck;
  */
 public class Message {
 
-    private byte[] bytes = new byte[1024];
+    private byte[] bytes = new byte[254];
 
     public Message(String string){
 
