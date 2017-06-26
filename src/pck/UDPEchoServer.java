@@ -38,7 +38,7 @@ class UDPEchoServer {
     public UDPEchoServer() throws UnknownHostException, SocketException {
 
         //..........::::::::::: CHANGE THIS LINE :::::::::............ | Destination address
-        IPAddress = InetAddress.getByName("192.168.0.101");
+        IPAddress = InetAddress.getByName("192.168.0.112");
     }
 
     //metodo specifico che invia un messaggio specifico @message
@@ -65,7 +65,7 @@ class UDPEchoServer {
 
         while (!exit) {
 
-            System.out.println("....:::: Inserire comando tra i seguenti:\n- stress\t\tDura circa 50 secondi, invia un messaggio diverso ogni 50ms\n- yaw\t\t\tInvia un messaggio di rotazione YAW di un angolo casuale\n- quit o q\t\tExit\n\n");
+            System.out.println("....:::: Inserire comando tra i seguenti:\n- stress\t\tDura circa 50 secondi, invia un messaggio diverso ogni 50ms\n- zero\t\t\tInvia un messaggio di posizione dello zero\n- quit o q\t\tExit\n\n");
             Message message;
             try {
                 //acquisisce da CLI il messaggio da inviare
@@ -74,7 +74,6 @@ class UDPEchoServer {
                 switch (command) {
                     case "stress": {
                         stress();
-                        exit = true;
                         break;
                     }
                     case "test": {
@@ -93,6 +92,10 @@ class UDPEchoServer {
                         yaw();
                         break;
                     }
+                    case "zero": {
+                        zero();
+                        break;
+                    }
                     case "quit":
                     case "q":
                         exit = true;
@@ -105,13 +108,13 @@ class UDPEchoServer {
                 if (exit)
                     break;
 
-                message = new Message(string_to_send);
+                /*message = new Message(string_to_send);
                 //chiama metodo per inviare messaggio
                 sendMessage(message);
 
                 System.out.println("....:::: Pacchetto inviato ::::....");
                 System.out.flush();
-
+*/
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -126,31 +129,40 @@ class UDPEchoServer {
 
     private void stress() {
         try {
-            for (int i = 0; i < 100; i++) {
-                sendMessage(new Message("#0200000000000003845000000496\r"));
+            for (int i = 0; i < 1; i++) {
+
+                //Pitch +10 vel 20
+               // sendMessage(new Message("#0200000000641400000000000491\r"));
+               //System.out.println("....:::: Pacchetto inviato ::::....");
+               // Thread.sleep(2000);
+                //Roll +10 vel 20
+               // sendMessage(new Message("#0200641400000000000000000491\r"));
+               // System.out.println("....:::: Pacchetto inviato ::::....");
+               // Thread.sleep(2000);
+                //Yaw destra 180 vel 20
+                //sendMessage(new Message("#0200641400000000000000000491\r"));
+                //System.out.println("....:::: Pacchetto inviato ::::....");
+                //Thread.sleep(8000);
+                //Pitch -10 vel 20
+                //sendMessage(new Message("#02000000FF9C14000000000004CF\r"));
+                //System.out.println("....:::: Pacchetto inviato ::::....");
+                //Thread.sleep(2000);
+                //Yaw destra 90 vel 20
+                sendMessage(new Message("#020000000000000384140000049E\r"));
                 System.out.println("....:::: Pacchetto inviato ::::....");
-                Thread.sleep(50);
-                sendMessage(new Message("#0200965000000000000000000491\r"));
-                System.out.println("....:::: Pacchetto inviato ::::....");
-                Thread.sleep(50);
-                sendMessage(new Message("#02000000000000004B5000000496\r"));
-                System.out.println("....:::: Pacchetto inviato ::::....");
-                Thread.sleep(50);
-                sendMessage(new Message("#02000000FF9C50000000000004CF\r"));
-                System.out.println("....:::: Pacchetto inviato ::::....");
-                Thread.sleep(50);
-                sendMessage(new Message("#0200005000005000005000000491\r"));
-                System.out.println("....:::: Pacchetto inviato ::::....");
-                Thread.sleep(50);
-                sendMessage(new Message("#0200000000645000000000000491\r"));
-                System.out.println("....:::: Pacchetto inviato ::::....");
-                Thread.sleep(50);
-                sendMessage(new Message("#0200000000000003841400000496\r"));
-                System.out.println("....:::: Pacchetto inviato ::::....");
-                Thread.sleep(50);
-                sendMessage(new Message("#020000000000008708500000049E\r"));
-                System.out.println("....:::: Pacchetto inviato ::::....");
-                Thread.sleep(50);
+                //Thread.sleep(8000);
+                //Roll -10 vel 20
+                //sendMessage(new Message("#02FF9C14000000000000000004CF\r"));
+                //System.out.println("....:::: Pacchetto inviato ::::....");
+                //Thread.sleep(2000);
+                //Yaw sinistra 90 vel 20
+                //sendMessage(new Message("#0200000000000003841400000496\r"));
+                //System.out.println("....:::: Pacchetto inviato ::::....");
+                //Thread.sleep(5000);
+                //Yaw destra 180 vel 20
+                //sendMessage(new Message("#020000000000008708140000049E\r"));
+                //System.out.println("....:::: Pacchetto inviato ::::....");
+                //Thread.sleep(8000);
             }
         } catch (Exception e) {
         }
@@ -164,16 +176,14 @@ class UDPEchoServer {
 
     }
 
+    private void zero(){
+        //Zero position
+        sendMessage(new Message("#0200001400001400001400000491\r"));
+    }
     private void yaw() {
 
-        int speed = rand.nextInt(80) + 10;
 
-        int position = rand.nextInt(3599) + 1;
 
-        hex_speed = decToHex(speed);
-        hex_position = decToHex(position);
-
-        string_to_send = "#020000000000000" + hex_position + hex_speed + "0000049E\r";
 
     }
 
